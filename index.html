@@ -113,7 +113,7 @@
     snare.send();
 
     var hihat = new XMLHttpRequest();
-    hihat.open("Get","test.wav",true);  //  <---- replace this file with yours
+    hihat.open("Get","Don't sleep (ft. Owen Ovadoz, Debi, Reddy)-G2.mp3",true);  //  <---- replace this file with yours
     hihat.responseType = "arraybuffer";
     hihat.onload = function(){
         context.decodeAudioData(hihat.response, function(buffer){buffers[2] = buffer;});
