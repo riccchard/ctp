@@ -174,7 +174,7 @@
     }
 
     function changegain(i,changedvalue){
-        gain_nodes[i].gain.value = db2gain(changedvalue);
+        gain_nodes[i].gain.value = changedvalue;
         document.getElementById(volume_label_id[i]).innerHTML = 'Volume:  ' + changedvalue + 'dB'; 
     }
 
