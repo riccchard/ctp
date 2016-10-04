@@ -174,13 +174,14 @@
     }
 
     function changegain(i,changedvalue){
-        gain_nodes[i].gain.value = changedvalue;
+        gain_nodes[i].gain.value = db2gain(changedvalue);
+        console.log(gain_nodes[i].gain.value)
         document.getElementById(volume_label_id[i]).innerHTML = 'Volume:  ' + changedvalue + 'dB'; 
     }
 
     function db2gain(db_gain) {
         var gain = 1.0;
-        gain = 10^(db_gain/20)
+        gain = math.pow(10,db_gain/20)
         return gain
     }
 
