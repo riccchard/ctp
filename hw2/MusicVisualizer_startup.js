@@ -74,8 +74,11 @@ window.onload=function(){
         context.decodeAudioData(demoReq.response, function(buffer){demo_buffer = buffer;});
     }
     demoReq.send();
-
     animation_function = draw_octaveband;
+    
+    //
+    draw_octaveband();
+
 }
 
 function setAnimationFunction (mode_num) {
@@ -111,9 +114,9 @@ function draw_octaveband() {
 	var drawContext = vis_view.getContext('2d');
 	
 	// fill rectangular (for the entire canvas)
-	drawContext.fillStyle = 'rgb(0, 0, 0)';
+	drawContext.fillStyle = 'rgb(0,0,0)';
 	drawContext.fillRect(0, 0, WIDTH, HEIGHT);
-
+	console.log('hi');
 
 	for (var i=0; i<10; i++) {
 
@@ -123,13 +126,14 @@ function draw_octaveband() {
 
 
 		///// asymmetric envelope detector
-		//
-		//
 		// fill out here with your code
-		// 
 		// note that you can use "prev_band_level" array defined above to store the decaying level
-		// 
-		//
+		if (prev_band_level[i] < sound_level){
+			sound_level_env = sound_level;
+		}
+
+		sound_level_env = sound_level_env - HEIGHT/16;
+		prev_band_level[i] = sound_level;
 
 		// shape
 		drawContext.beginPath();
