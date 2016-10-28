@@ -89,7 +89,7 @@ function setAnimationFunction (mode_num) {
 		stopAnimation();
 
 		// restart visualize audio animation
-    	animation_id = setInterval(animation_function(), context.sampleRate/analyser.fftSize);
+    	animation_id = setInterval(animation_function, context.sampleRate/analyser.fftSize);
 	}
 }
 
@@ -112,24 +112,26 @@ function draw_octaveband() {
 	// fill rectangular (for the entire canvas)
 	drawContext.fillStyle = 'rgb(0,0,0)';
 	drawContext.fillRect(0, 0, WIDTH, HEIGHT);
-	console.log('hi');
 
 	for (var i=0; i<10; i++) {
 
 		// fill rectangular (for the sound level)
-		var sound_level = (octaveband_level_db[i]-SOUND_METER_MIN_LEVEL)/(0.0-SOUND_METER_MIN_LEVEL)*SOUND_METER_HEIGHT;
+		var sound_level = (octaveband_level_db[i]-SOUND_METER_MIN_LEVEL)/(12-SOUND_METER_MIN_LEVEL)*SOUND_METER_HEIGHT;
 		var sound_level_env;
 
 
 		///// asymmetric envelope detector
 		// fill out here with your code
 		// note that you can use "prev_band_level" array defined above to store the decaying level
-		if (prev_band_level[i] < sound_level){
+		
+		if (prev_band_level[i] < Math.pow(10,sound_level/10)){
 			sound_level_env = sound_level;
 		}
 
-		sound_level_env = sound_level_env - HEIGHT/16;
-		prev_band_level[i] = sound_level;
+		else{
+			sound_level_env = prev_band_level[i]-HEIGHT/64;
+		}
+		prev_band_level[i] = sound_level_env;
 
 		// shape
 		drawContext.beginPath();
@@ -191,7 +193,7 @@ function onStream(stream) {
 	mediaSourceNode.connect(analyser);
 						  
 	// visualize audio animation
-    animation_id = setInterval(animation_function(), context.sampleRate/analyser.fftSize);
+    animation_id = setInterval(animation_function, context.sampleRate/analyser.fftSize);
 }
 
 // errorCallback			 
@@ -221,7 +223,7 @@ function playFile() {
 	sourceNode.connect(analyser);
 
 	// visualize audio animation
-    animation_id = setInterval(animation_function(), context.sampleRate/analyser.fftSize);
+    animation_id = setInterval(animation_function, context.sampleRate/analyser.fftSize);
 
 	filePlayOn = true;
 	
