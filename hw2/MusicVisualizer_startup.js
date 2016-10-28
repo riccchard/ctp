@@ -65,7 +65,7 @@ window.onload=function(){
 	// analyzer
     analyser = context.createAnalyser();
     analyser.fftSize = 2048;
-	analyser.smoothingTimeConstant = 0;		
+    analyser.smoothingTimeConstant = 0;		
 
 	var demoReq = new XMLHttpRequest();
     demoReq.open("Get","demo1.mp3",true);
@@ -89,7 +89,7 @@ function setAnimationFunction (mode_num) {
 		stopAnimation();
 
 		// restart visualize audio animation
-    	animation_id = setInterval(animation_function, context.sampleRate/analyser.fftSize);
+    	animation_id = setInterval(animation_function(), context.sampleRate/analyser.fftSize);
 	}
 }
 
@@ -191,7 +191,7 @@ function onStream(stream) {
 	mediaSourceNode.connect(analyser);
 						  
 	// visualize audio animation
-    animation_id = setInterval(animation_function, context.sampleRate/analyser.fftSize);
+    animation_id = setInterval(animation_function(), context.sampleRate/analyser.fftSize);
 }
 
 // errorCallback			 
@@ -221,7 +221,7 @@ function playFile() {
 	sourceNode.connect(analyser);
 
 	// visualize audio animation
-    animation_id = setInterval(animation_function, context.sampleRate/analyser.fftSize);
+    animation_id = setInterval(animation_function(), context.sampleRate/analyser.fftSize);
 
 	filePlayOn = true;
 	
