@@ -65,7 +65,7 @@ window.onload=function(){
 	// analyzer
     analyser = context.createAnalyser();
     analyser.fftSize = 2048;
-	analyser.smoothingTimeConstant = 0;		
+    analyser.smoothingTimeConstant = 0;		
 
 	var demoReq = new XMLHttpRequest();
     demoReq.open("Get","demo1.mp3",true);
