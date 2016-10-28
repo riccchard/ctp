@@ -13,11 +13,10 @@ function calc_octaveband(input_array) {
 
 
 	for (var i = 0; i < center_freqs.length; i++) {
-		//
-		//
-		// fill out here with your code
-		//
-		//
+		for (var j = 2^(i); j < 2^(i+1); j++){
+			band_power[i] = band_power[i] + fft_power[j-1];
+		}
+		band_power[9] = band_power[9] + fft_power[1023];
 	}
 
 
