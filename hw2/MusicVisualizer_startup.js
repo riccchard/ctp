@@ -75,10 +75,6 @@ window.onload=function(){
     }
     demoReq.send();
     animation_function = draw_octaveband;
-    
-    //
-    draw_octaveband();
-
 }
 
 function setAnimationFunction (mode_num) {
