@@ -77,7 +77,7 @@ window.onload=function(){
     analyser.smoothingTimeConstant = 0;		
 
 	var demoReq = new XMLHttpRequest();
-    demoReq.open("Get","SKRILLEX.mp3",true);
+    demoReq.open("Get","demo1.mp3",true);
     demoReq.responseType = "arraybuffer";
     demoReq.onload = function(){
         context.decodeAudioData(demoReq.response, function(buffer){demo_buffer = buffer;});
