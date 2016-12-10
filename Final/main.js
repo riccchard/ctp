@@ -186,6 +186,7 @@ function music_start() {
 		gScale_env = gScale;
 		//first beat pass
 		if (f==1){
+			random_select();
 			random_interval = setInterval(random_select,count_value*1000*beat_interval)
 		}
 		f=0;
