@@ -8,6 +8,6 @@ Description
 
 How to play
 -----------
-1. Drop your music
+# 1. Drop your music
 ------------------
 Choose audio file from your local library
