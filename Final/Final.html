@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title> Final 20130115 </title>
+	<script type="text/javascript" src="./main.js"></script>
+	<script type="text/javascript" src="./visualizer.js"></script>
+	<script type="text/javascript" src="./octave_band.js"></script>
+	<script type="text/javascript" src="./hsv2rgb.js"></script>
+	<script type="text/javascript" src="./mouse_interact.js"></script>
+	<script type="text/javascript" src="./beat_detect.js"></script>
+	<script type="text/javascript" src="./draw_camera.js"></script>
+</head>
+<style>
+	#videoElement{
+		width:480px;
+		height:360px;
+		display:none;
+	}
+	#videoCanvas{
+		width:480px;
+		height:360px;
+	}
+	#back_videoCanvas{
+		width:480px;
+		height:360px;
+		display:none;
+	}
+</style>
+<body>		
+	<h1> Final: 20130115 </h1>
+
+	<p>
+		1. Drop your music
+		<input id="fileChooseInput" type="file" onloadeddata="findBPM()"></input>
+	</p>
+	<p>
+		2. Find BPM
+		<button id="bpm"> Find BPM </button><label id="bpm_output">BPM is not obtained yet</label>
+	</p>
+	<p>
+		3. Select Count number
+		<input type="text" id="count" value="4">
+		<button id="count_change">Count Change</button>
+	</p>
+	<p>
+		4. Play
+		<button id="demoAudio"> Audio Play </button>
+	</p>
+
+	<table>
+		<tr>
+			<th>
+			<canvas id='loudnessView'"></canvas>
+			</th>
+
+			<th>
+			<video autoplay="true" id="videoElement"></video>
+			<canvas id="videoCanvas"></canvas>
+			<canvas id="back_videoCanvas"></canvas>
+			</th>
+
+			<th align="left">
+			<input id="uncheck_all" type="checkbox" onclick="check_all_toggle(this.checked)"></input>
+			<label>All Filters</label>
+			<br>
+			<input name="check" id="clear" type="checkbox" onchange="filter_add('clear')"></input>
+			<label>Clear</label>
+			<br>
+			<input name="check" id="brightness" type="checkbox" onchange="filter_add('brightness')"></input>
+			<label>Brightness</label>
+			<br>
+			<input name="check" id="invert" type="checkbox" onchange="filter_add('invert')"></input>
+			<label>Invert</label>
+			<br>
+			<input name="check" id="contrast" type="checkbox" onchange="filter_add('contrast')"></input>
+			<label>Contrast</label>
+			<br>
+			<input name="check" id="gray" type="checkbox" onchange="filter_add('gray')"></input>
+			<label>Gray</label>
+			<br>
+			<input name="check" id="threshold" type="checkbox" onchange="filter_add('threshold')"></input>
+			<label>Threshold</label>
+			<br>
+			<input name="check" id="sharpen" type="checkbox" onchange="filter_add('sharpen')"></input>
+			<label>Sharpen</label>
+			<br>
+			<input name="check" id="sobel" type="checkbox" onchange="filter_add('sobel')"></input>
+			<label>Sobel</label>
+			<br>
+			<input name="check" id="sepia" type="checkbox" onchange="filter_add('sepia')"></input>
+			<label>Sepia</label>
+			<br>
+			<input name="check" id="saturate" type="checkbox" onchange="filter_add('saturate')"></input>
+			<label>Saturate</label>
+			<br>
+			<input name="check" id="embossed" type="checkbox" onchange="filter_add('embossed')"></input>
+			<label>Embossed</label>
+			<br>
+			<input name="check" id="freeze" type="checkbox" onchange="filter_add('freeze')"></input>
+			<label>Freeze</label>
+			</th>
+
+			<th align="left">
+			<input id="uncheck_all_2" type="checkbox" onclick="check_all_toggle2(this.checked)"></input>
+			<label>All Screen numbers</label>
+			<br>
+			<input name="check2" id="1screen" type="checkbox" onchange="screen_num_add('1screen')"></input>
+			<label>1 Screen</label>
+			<br>
+			<input name="check2" id="2screen" type="checkbox" onchange="screen_num_add('2screen')"></input>
+			<label>2 Screen</label>		
+			<br>
+			<input name="check2" id="4screen" type="checkbox" onchange="screen_num_add('4screen')"></input>
+			<label>4 Screen</label>
+			</th>
+		</tr>
+	</table>
+</body>
+</html>

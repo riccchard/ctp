@@ -36,6 +36,9 @@ function draw_camera(camera_filter,screen_num){
 	if ((camera_filter!=='saturate')&&(camera_filter!=='freeze')){
 		saturate = 1;
 	}
+	if ((camera_filter!=='contrast')&&(camera_filter!=='freeze')){
+		contrast = 100;
+	}
 	switch (camera_filter){
 		case 'clear':
 			document.getElementById("videoCanvas").style.filter='none';
@@ -68,6 +71,10 @@ function draw_camera(camera_filter,screen_num){
 			saturate = 8;
 			draw_interval = setInterval(clear,22);
 			break;
+		case 'contrast':
+			contrast = 200;
+			draw_interval = setInterval(clear,22);
+			break;
 		case 'embossed':
 			draw_interval = setInterval(embossed,22);
 			break;
@@ -79,6 +86,9 @@ function draw_camera(camera_filter,screen_num){
 	switch (screen_num){
 		case '1screen':
 			screen_interval = setInterval(one_screen,22);
+			break;
+		case '2screen':
+			screen_interval = setInterval(two_screen,22);
 			break;
 		case '4screen':
 			screen_interval = setInterval(four_screen,22);
@@ -231,6 +241,10 @@ function sobel(){
 
 function one_screen(){
 	videoContext.drawImage(back_videoCanvas,0,0,cw,ch);
+}
+function two_screen(){
+	videoContext.drawImage(back_videoCanvas,0,0,cw/2,ch);
+	videoContext.drawImage(back_videoCanvas,cw/2,0,cw/2,ch);
 }
 function four_screen(){
 	videoContext.drawImage(back_videoCanvas,0,0,cw/2,ch/2);

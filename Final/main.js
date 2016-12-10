@@ -45,10 +45,12 @@ var draw_interval;
 var screen_interval;
 var invert=0;
 var sepia=0;
+var contrast=100;
 
 // bpm
 var beat_interval;
 var bpm;
+var count_value=4;
 
 window.onload=function(){
 	var control = document.getElementById("fileChooseInput");
@@ -59,6 +61,9 @@ window.onload=function(){
 
 	var audioBPM = document.getElementById("bpm");
 	audioBPM.addEventListener("click",findBPM, false);
+
+	var count = document.getElementById("count_change");
+	count.addEventListener("click",count_change,false);
 
 	// visualizer
 	vis_view = document.getElementById("loudnessView");
@@ -113,6 +118,7 @@ function fileLoaded(e){
 	context.decodeAudioData(e.target.result, function(buffer) {
 	  myAudioBuffer = buffer;
 	});
+	document.getElementById("bpm_output").innerHTML='BPM is not obtained yet';
 	console.log("File has been loaded.")
 }
 
@@ -143,6 +149,22 @@ function videoError(e) {
 	console.log("video error");
 }
 
+function check_all_toggle(checked){
+	var checkboxes = document.getElementsByName('check');
+	for (var i=0; i<checkboxes.length; i++){
+		checkboxes[i].checked = checked;
+		filter_add(checkboxes[i].id);
+	}
+}
+function check_all_toggle2(checked){
+	var checkboxes2 = document.getElementsByName('check2');
+	for (var i=0; i<checkboxes2.length; i++){
+		checkboxes2[i].checked = checked;
+		screen_num_add(checkboxes2[i].id);
+	}
+}
+
+
 var pre = SOUND_METER_MIN_LEVEL;
 var gScale_env=0;
 var saturate=1;
@@ -164,7 +186,7 @@ function music_start() {
 		gScale_env = gScale;
 		//first beat pass
 		if (f==1){
-			random_interval = setInterval(random_select,4*1000*beat_interval)
+			random_interval = setInterval(random_select,count_value*1000*beat_interval)
 		}
 		f=0;
 	}
@@ -179,8 +201,7 @@ function music_start() {
 		//}
 	}
 	pre = data_array[4];
-	document.getElementById("videoCanvas").style.filter="blur(" + gScale_env +"px) saturate(" + saturate +") invert(" + invert +"%) sepia(" + sepia + "%)"
-
+	document.getElementById("videoCanvas").style.filter="blur(" + gScale_env +"px) saturate(" + saturate +") invert(" + invert +"%) sepia(" + sepia + "%) contrast(" + contrast +"%)";
 	draw_visualizer()
 }
 
@@ -222,10 +243,7 @@ function turnOffFileAudio() {
     filePlayOn = false;
 
     // camera filter
-    document.getElementById("videoElement").style.filter="initial"
-    saturate=1;
-    sepia=0;
-    invert=0;
+    draw_camera('clear','1screen');
     f=1;
 
 	stopAnimation();

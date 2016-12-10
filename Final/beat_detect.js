@@ -121,6 +121,12 @@ function findBPM(){
   bpm = top[0].tempo;
   beat_interval = 60/bpm //sec
   beatMax = Math.round(4*60*(1000/(context.sampleRate/analyser.fftSize))/bpm)
-  document.getElementById("bpm_output").innerHTML='bpm is '+bpm;
+  document.getElementById("bpm_output").innerHTML='BPM is '+bpm;
   };
+}
+
+function count_change(){
+  clearInterval(random_interval)
+  count_value = document.getElementById('count').value;
+  f=1;
 }
