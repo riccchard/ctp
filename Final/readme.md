@@ -9,4 +9,5 @@ Description
 How to play
 -----------
 1. Drop your music
-	Choose audio file from your local library
+------------------
+Choose audio file from your local library
