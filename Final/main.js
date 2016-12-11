@@ -118,7 +118,7 @@ function fileLoaded(e){
 	context.decodeAudioData(e.target.result, function(buffer) {
 	  myAudioBuffer = buffer;
 	});
-	document.getElementById("bpm_output").innerHTML='BPM is not obtained yet';
+	document.getElementById("bpm_output").innerHTML=' BPM is not obtained yet';
 	console.log("File has been loaded.")
 }
 
@@ -152,15 +152,19 @@ function videoError(e) {
 function check_all_toggle(checked){
 	var checkboxes = document.getElementsByName('check');
 	for (var i=0; i<checkboxes.length; i++){
-		checkboxes[i].checked = checked;
-		filter_add(checkboxes[i].id);
+		if (checkboxes[i].checked !== checked){
+			checkboxes[i].checked = checked;
+			filter_add(checkboxes[i].id);
+		}
 	}
 }
 function check_all_toggle2(checked){
 	var checkboxes2 = document.getElementsByName('check2');
 	for (var i=0; i<checkboxes2.length; i++){
-		checkboxes2[i].checked = checked;
-		screen_num_add(checkboxes2[i].id);
+		if (checkboxes2[i].checked !== checked){
+			checkboxes2[i].checked = checked;
+			screen_num_add(checkboxes2[i].id);			
+		}
 	}
 }
 
