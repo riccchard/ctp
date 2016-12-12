@@ -116,6 +116,7 @@ function findBPM(){
   bpm = top[0].tempo;
   beat_interval = 60/bpm //sec
   beatMax = Math.round(4*60*(1000/(context.sampleRate/analyser.fftSize))/bpm)
+  clearInterval(loading_interval);
   document.getElementById("bpm_output").innerHTML=' BPM is '+bpm;
   };
 }

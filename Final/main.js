@@ -10,6 +10,7 @@ var source;
 var filePlayOn = false;
 var data_array;
 var format;
+var slider_value;
 
 // frequency band
 var lower_freqs = [22,66,176,704,1408,2816,5632,11264];
@@ -57,7 +58,9 @@ var backContext = back.getContext('2d');
 // bpm
 var beat_interval;
 var bpm;
-var count_value=4;
+var count_value=8;
+var loading_interval;
+var loading_i;
 
 window.onload=function(){
 	var control = document.getElementById("fileChooseInput");
@@ -68,6 +71,11 @@ window.onload=function(){
 
 	var count = document.getElementById("count_change");
 	count.addEventListener("click",count_change,false);
+
+	var blur_slider = document.getElementById("blur_effect_threshold");
+	slider_value = blur_slider.value;
+	blur_slider.addEventListener("change", changeSliderValue, false);
+	document.getElementById("blur_value").innerHTML=blur_slider.value+"dB";
 
 	// visualizer
 	vis_view = document.getElementById("loudnessView");
@@ -161,8 +169,22 @@ function fileLoaded(e){
 		source.buffer = myAudioBuffer;
 		findBPM()
 	});
-	document.getElementById("bpm_output").innerHTML='BPM is not obtained yet. Please wait.';
+	loading_i=1;
+	loading_interval = setInterval(function(){
+		var loading = "L O A D I N G"
+		document.getElementById("bpm_output").innerHTML=loading.slice(0,loading_i);
+		loading_i = loading_i + 1;
+		if (loading_i>13){
+			loading_i=1;
+		}
+	},125)
+	
 	console.log("Audio has been loaded.")
+}
+// slider value
+function changeSliderValue(e){
+	slider_value = e.target.value;
+	document.getElementById("blur_value").innerHTML=slider_value+"dB";
 }
 
 // filter add
@@ -226,7 +248,7 @@ function music_start() {
 	var gScale = data_array[4] + 26.5
 
 	// color and filter with Kick
-	if ( (data_array[4] > -25) && (pre + 5<data_array[4]) ){
+	if ( (data_array[4] > slider_value) && (pre + 5<data_array[4]) ){
 		a = a + 100;
 		a = a % 360;
 		gScale_env = gScale;
@@ -242,6 +264,10 @@ function music_start() {
 		//saturate = saturate-0.3;
 		if (gScale_env<0){
 			gScale_env = 0;
+		}
+		else if (gScale_env>10){
+			console.log(gScale_env)
+			gScale_env=10;
 		}
 	}
 	pre = data_array[4];

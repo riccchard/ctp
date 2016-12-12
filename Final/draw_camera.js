@@ -81,12 +81,15 @@ function draw_camera(camera_filter,screen_num){
 			//sleep(1000*beat_interval);
 			switch (screen_num){
 				case '1screen':
+					one_screen();
 					screen_interval = setInterval(one_screen,1000*beat_interval);
 					break;
 				case '2screen':
+					two_screen();
 					screen_interval = setInterval(two_screen,1000*beat_interval);
 					break;
 				case '4screen':
+					four_screen();
 					screen_interval = setInterval(four_screen,1000*beat_interval);
 					break;
 			}

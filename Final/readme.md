@@ -4,7 +4,7 @@ CTP431 Final 20130115: Music-Cam React Machine
 
 Description
 -----------
-Music-Cam React Machine provides a visualizer and several camera-filters.
+Music-Cam React Machine(MCRM) provides a visualizer and several camera-filters.
 
 All you have to do is choosing count number and filter.
 

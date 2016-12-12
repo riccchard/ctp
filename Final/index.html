@@ -31,19 +31,21 @@
 	<h1> CTP Final 20130115: Music-Cam React Machine </h1>
 
 	<p>
-		1. Drop your music
 		<input id="fileChooseInput" type="file" accept="audio/*,video/*"></input>
 	</p>
 	<p>
-		<label id="bpm_output">BPM is not obtained yet. Please wait.</label>
+		<label id="bpm_output">Drop your music or video</label>
 	</p>
 	<p>
-		2. Adjust count number
-		<input type="text" id="count" value="4">
+		Adjust count number
+		<input type="text" id="count" value="8">
 		<button id="count_change">Count change</button>
 	</p>
 	<p>
-		3. 
+		Blur effect threshold<input id="blur_effect_threshold" type="range" min="-35" max="-15" value="-25" />
+			<span id="blur_value"></span>
+	</p>
+	<p>
 		<button id="demoAudio"> Play </button>
 	</p>
 
@@ -53,7 +55,7 @@
 			<canvas id='loudnessView'"></canvas>
 			</th>
 
-			<th width="480px">
+			<th width="480px" height="480px">
 			<video autoplay="true" id="videoElement"></video>
 			<canvas id="back_videoCanvas" ></canvas>
 			<canvas id="videoCanvas" ></canvas>
@@ -70,11 +72,25 @@
 			<input name="check" id="brightness" type="checkbox" onchange="filter_add('brightness')"></input>
 			<label>Brightness</label>
 			<br>
+			<input name="check" id="contrast" type="checkbox" onchange="filter_add('contrast')"></input>
+			<label>Contrast</label>
+			<br>
+			<input name="check" id="sepia" type="checkbox" onchange="filter_add('sepia')"></input>
+			<label>Sepia</label>
+			<br>
+			<input name="check" id="sharpen" type="checkbox" onchange="filter_add('sharpen')"></input>
+			<label>Sharpen</label>
+			<br>
+			<br>
 			<input name="check" id="invert" type="checkbox" onchange="filter_add('invert')"></input>
 			<label>Invert</label>
 			<br>
-			<input name="check" id="contrast" type="checkbox" onchange="filter_add('contrast')"></input>
-			<label>Contrast</label>
+			<input name="check" id="saturate" type="checkbox" onchange="filter_add('saturate')"></input>
+			<label>Saturate</label>
+			<br>
+			<input name="check" id="sobel" type="checkbox" onchange="filter_add('sobel')"></input>
+			<label>Sobel</label>
+			<br>
 			<br>
 			<input name="check" id="gray" type="checkbox" onchange="filter_add('gray')"></input>
 			<label>Gray</label>
@@ -82,20 +98,9 @@
 			<input name="check" id="threshold" type="checkbox" onchange="filter_add('threshold')"></input>
 			<label>Threshold</label>
 			<br>
-			<input name="check" id="sharpen" type="checkbox" onchange="filter_add('sharpen')"></input>
-			<label>Sharpen</label>
-			<br>
-			<input name="check" id="sobel" type="checkbox" onchange="filter_add('sobel')"></input>
-			<label>Sobel</label>
-			<br>
-			<input name="check" id="sepia" type="checkbox" onchange="filter_add('sepia')"></input>
-			<label>Sepia</label>
-			<br>
-			<input name="check" id="saturate" type="checkbox" onchange="filter_add('saturate')"></input>
-			<label>Saturate</label>
-			<br>
 			<input name="check" id="embossed" type="checkbox" onchange="filter_add('embossed')"></input>
 			<label>Embossed</label>
+			<br>
 			<br>
 			<input name="check" id="freeze" type="checkbox" onchange="filter_add('freeze')"></input>
 			<label>Freeze</label>
