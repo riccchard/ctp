@@ -13,18 +13,18 @@
 </head>
 <style>
 	#videoElement{
-		width:480px;
-		height:360px;
+		display:none;
+	}
+	#back_videoCanvas{
 		display:none;
 	}
 	#videoCanvas{
-		width:480px;
-		height:360px;
 	}
-	#back_videoCanvas{
-		width:480px;
-		height:360px;
+	#uploaded_video{
 		display:none;
+	}
+	#bpm_output{
+		font-weight: bold;
 	}
 </style>
 <body>		
@@ -32,32 +32,32 @@
 
 	<p>
 		1. Drop your music
-		<input id="fileChooseInput" type="file" onloadeddata="findBPM()"></input>
+		<input id="fileChooseInput" type="file" accept="audio/*,video/*"></input>
 	</p>
 	<p>
-		2. 
-		<button id="bpm"> Find BPM </button><label id="bpm_output">  BPM is not obtained yet</label>
+		<label id="bpm_output">BPM is not obtained yet. Please wait.</label>
 	</p>
 	<p>
-		3. Adjust count number
+		2. Adjust count number
 		<input type="text" id="count" value="4">
 		<button id="count_change">Count change</button>
 	</p>
 	<p>
-		4. Play
-		<button id="demoAudio"> Audio Play </button>
+		3. 
+		<button id="demoAudio"> Play </button>
 	</p>
 
 	<table>
 		<tr>
-			<th>
+			<th width="480px">
 			<canvas id='loudnessView'"></canvas>
 			</th>
 
-			<th>
+			<th width="480px">
 			<video autoplay="true" id="videoElement"></video>
-			<canvas id="videoCanvas"></canvas>
-			<canvas id="back_videoCanvas"></canvas>
+			<canvas id="back_videoCanvas" ></canvas>
+			<canvas id="videoCanvas" ></canvas>
+			<video id="uploaded_video" muted="true"></video>
 			</th>
 
 			<th align="left">

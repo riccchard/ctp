@@ -1,5 +1,4 @@
-var back = document.createElement('canvas');
-var backContext = back.getContext('2d');
+
 var tmpCanvas = document.createElement('canvas');
 var tmpContext = tmpCanvas.getContext('2d');
 
@@ -131,7 +130,7 @@ function threshold(){
 		var r = d[i];
 		var g = d[i+1];
 		var b = d[i+2];
-		var v = (0.2126*r + 0.7152*g + 0.0722*b >= 110) ? 255 : 0;
+		var v = (0.2126*r + 0.7152*g + 0.0722*b >= 100) ? 255 : 0;
 		d[i] = d[i+1] = d[i+2] = v;
 	}
 	idata.data = d;
@@ -141,7 +140,6 @@ function gray(){
 	backContext.drawImage(camera,0,0,cw,ch);
 	var idata = backContext.getImageData(0,0,cw,ch);
 	var d = idata.data;
-
 	for (var i=0; i<d.length; i+=4) {
 		var r = d[i];
 		var g = d[i+1];

@@ -1,11 +1,15 @@
 // audio
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
+window.OfflineContext = window.OfflineAudioContext || window.webkitOfflineAudioContext;
 var sourceNode = null;
 var analyser = null;
 var context; // audio context
+var offlineContext // for BPM
 var myAudioBuffer = null;
+var source;
 var filePlayOn = false;
 var data_array;
+var format;
 
 // frequency band
 var lower_freqs = [22,66,176,704,1408,2816,5632,11264];
@@ -47,6 +51,9 @@ var invert=0;
 var sepia=0;
 var contrast=100;
 
+var back = document.createElement('canvas');
+var backContext = back.getContext('2d');
+
 // bpm
 var beat_interval;
 var bpm;
@@ -58,9 +65,6 @@ window.onload=function(){
 
 	var demoAudio = document.getElementById("demoAudio");
 	demoAudio.addEventListener("click", playFile, false);
-
-	var audioBPM = document.getElementById("bpm");
-	audioBPM.addEventListener("click",findBPM, false);
 
 	var count = document.getElementById("count_change");
 	count.addEventListener("click",count_change,false);
@@ -76,12 +80,24 @@ window.onload=function(){
 	if (navigator.getUserMedia) {
 		navigator.getUserMedia({video: true}, handleVideo, videoError);
 	}
+
 	videoCanvas = document.getElementById("videoCanvas");
+	videoCanvas.width=480;
+	videoCanvas.height=360;
 	videoContext = videoCanvas.getContext('2d');
+
 	back_videoCanvas = document.getElementById("back_videoCanvas");
+	back_videoCanvas.width=480;
+	back_videoCanvas.height=360;
 	back_videoContext = back_videoCanvas.getContext('2d');
-	cw=videoCanvas.width;
-	ch=videoCanvas.height;
+
+	back.width=480;
+	back.height=360;
+
+	cw = videoCanvas.width;
+	ch = videoCanvas.height;
+
+
 	camera.addEventListener('play',function(){
 		draw_camera(camera_filter,screen_num)
 	},false);
@@ -110,16 +126,43 @@ window.onload=function(){
 // file upload
 function fileChanged(e){
 	var file = e.target.files[0];
+	var dot_locate = e.target.value.lastIndexOf(".");
+	format = e.target.value.slice(dot_locate+1);
+	// video
+	if ((format == "mp4") || (format == "WebM") || (format == "ogg")){
+		camera = document.getElementById("uploaded_video");
+		camera.width = 480;
+		var isError = camera.canPlayType==='no';
+		if (isError){
+			console.log("error")
+			return
+		}
+		console.log("Video has been loaded")
+		var fileURL = URL.createObjectURL(file)
+		camera.src = fileURL;
+	}
+	else{
+		camera = document.getElementById("videoElement");
+		videoCanvas.height = 360;
+		back_videoCanvas.height = 360;
+		back.height = 360;
+		ch = 360;		
+	}
 	var fileReader = new FileReader();
 	fileReader.onload = fileLoaded;
 	fileReader.readAsArrayBuffer(file);
 }
+
 function fileLoaded(e){
 	context.decodeAudioData(e.target.result, function(buffer) {
-	  myAudioBuffer = buffer;
+		myAudioBuffer = buffer;
+		offlineContext = new OfflineContext(2, myAudioBuffer.length, 44100);
+		source = offlineContext.createBufferSource();
+		source.buffer = myAudioBuffer;
+		findBPM()
 	});
-	document.getElementById("bpm_output").innerHTML=' BPM is not obtained yet';
-	console.log("File has been loaded.")
+	document.getElementById("bpm_output").innerHTML='BPM is not obtained yet. Please wait.';
+	console.log("Audio has been loaded.")
 }
 
 // filter add
@@ -186,7 +229,6 @@ function music_start() {
 	if ( (data_array[4] > -25) && (pre + 5<data_array[4]) ){
 		a = a + 100;
 		a = a % 360;
-		//saturate = 8;
 		gScale_env = gScale;
 		//first beat pass
 		if (f==1){
@@ -201,9 +243,6 @@ function music_start() {
 		if (gScale_env<0){
 			gScale_env = 0;
 		}
-		//if (saturate<1){
-		//	saturate=1;
-		//}
 	}
 	pre = data_array[4];
 	document.getElementById("videoCanvas").style.filter="blur(" + gScale_env +"px) saturate(" + saturate +") invert(" + invert +"%) sepia(" + sepia + "%) contrast(" + contrast +"%)";
@@ -215,10 +254,22 @@ function playFile() {
     	turnOffFileAudio();
     	return;
     }
+    // video play
+    if ((format == "mp4") || (format == "WebM") || (format == "ogg")){
+    	camera.style.display="block";
+		var nH = camera.offsetHeight;
+		videoCanvas.height = nH;
+		back_videoCanvas.height = nH;
+		back.height = nH;
+		ch = nH;
+		camera.style.display="none";
+    	camera.currentTime = 0;
+    	camera.play();
+    }
 
-    sourceNode = context.createBufferSource();
+	sourceNode = context.createBufferSource();
+	sourceNode.buffer = myAudioBuffer;
 
-    sourceNode.buffer = myAudioBuffer;
     sourceNode.connect(filter);
     filter.connect(context.destination)
 
@@ -235,14 +286,18 @@ function playFile() {
 	filePlayOn = true;
 	
 	var demoAudio = document.getElementById("demoAudio");
-	demoAudio.innerHTML = 'Audio Stop'
+	demoAudio.innerHTML = 'Stop'
 }
 
 function turnOffFileAudio() {
+	// video stop
+    if ((format == "mp4") || (format == "WebM") || (format == "ogg")){
+    	camera.pause();
+    }
 	var demoAudio = document.getElementById("demoAudio");
-	demoAudio.innerHTML = 'Audio Play'
+	demoAudio.innerHTML = 'Play'
 	if (sourceNode != null){
-		sourceNode.stop(0);
+		sourceNode.stop();
 	    sourceNode = null;
 	}
     filePlayOn = false;

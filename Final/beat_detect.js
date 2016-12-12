@@ -70,11 +70,6 @@ function getIntervals(peaks) {
 }
 
 function findBPM(){
-  window.OfflineContext = window.OfflineAudioContext || window.webkitOfflineAudioContext;
-  var offlineContext = new OfflineContext(2, myAudioBuffer.length, 44100);
-
-  var source = offlineContext.createBufferSource();
-  source.buffer = myAudioBuffer;
   // Beats, or kicks, generally occur around the 100 to 150 hz range.
   // Below this is often the bassline.  So let's focus just on that.
 
@@ -121,7 +116,7 @@ function findBPM(){
   bpm = top[0].tempo;
   beat_interval = 60/bpm //sec
   beatMax = Math.round(4*60*(1000/(context.sampleRate/analyser.fftSize))/bpm)
-  document.getElementById("bpm_output").innerHTML='BPM is '+bpm;
+  document.getElementById("bpm_output").innerHTML=' BPM is '+bpm;
   };
 }
 
